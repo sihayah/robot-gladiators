@@ -93,16 +93,7 @@ var fightOrSkip = function() {
   }
 }
 
-// If it is the player-robot's turn:
-  // prompt the fight or skip request
-  // Remove the damage from the enemy-robot's health
-  // Check if the enemy-robot has enough health to continue fighting
-// If it is not the player-robot's turn:
-  // Remove damage from the player-robot's health
-  // Check if the player-robot has enough health to continue fighting
-// After the turn is done, switch turns for the next bout of fighting
-  // If the player-robot went first, run the logic for the enemy-robot
-  // If the enemy-robot went first, run the logic for the player-robot attaching the enemy robot
+ 
   var fight = function(enemy) {
     // keep track of who goes first
     var isPlayerTurn = true;
@@ -210,13 +201,19 @@ var startGame = function() {
 
 // function to end entire game
 var endGame = function() {
-  // if player is still alive, player wins!
-  if(playerInfo.health > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");
+  var highScore = localStorage.getItem('highscore');
+  highScore = highScore || 0;
+  if (playerInfo.money > highScore) {
+    localStorage.setItem("highscore", playerInfo.money);
+    localStorage.setItem("name", playerInfo.name);
+
+    alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
   }
   else {
-    window.alert("You've lost ur robot in battle.");
+    alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!");
   }
+
+
   // ask user if they wish to play again
   var playAgainConfirm = window.confirm("Would you like to play again?");
 
